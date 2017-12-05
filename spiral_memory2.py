@@ -71,19 +71,19 @@ def left(loc):
 
 def move(loc):
   if up(loc) is 0 and right(loc) is 0 and left(loc) is 0 and down(loc) is 0:
-    print "in the center"
+    # print "in the center"
     loc[1] += 1
   elif up(loc) is 0 and left(loc) is not 0:
-    print "go up"
+    # print "go up"
     loc[0] -= 1
   elif down(loc) is not 0 and left(loc) is 0:
-    print "go left"
+    # print "go left"
     loc[1] -= 1
   elif down(loc) is 0 and right(loc) is not 0:
-    print "go down"
+    # print "go down"
     loc[0] += 1
   elif right(loc) is 0 and up(loc) is not 0:
-    print "go right"
+    # print "go right"
     loc[1] += 1
 
 
