@@ -69,8 +69,8 @@ for round in range(0, 64):
     # if skip_size == rope_length:
     #   skip_size = 1
 
-  print 'end of round', round
-  print skip_size, current_position
+  # print 'end of round', round
+  # print skip_size, current_position
 
 # part 1 
 # print rope[0] * rope[1]
@@ -106,4 +106,5 @@ Lessones learned (maybe again)
 slice to end [x:]
 hex()
 ord()
+reset sum!
 '''
