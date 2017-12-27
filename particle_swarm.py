@@ -20,6 +20,14 @@ class Particle(object):
   def manhattan_acceleration(self):
     return abs(self.a[0]) + abs(self.a[1]) + abs(self.a[2])
 
+  def update_location(self):
+    self.v[0] += self.a[0]
+    self.v[1] += self.a[1]
+    self.v[2] += self.a[2]
+    self.p[0] += self.v[0]
+    self.p[1] += self.v[1]
+    self.p[2] += self.v[2]
+
 def location_sort(a, b):
   a_manhattan = a.manhattan()
   b_manhattan = b.manhattan()
@@ -58,13 +66,66 @@ for i in range(0, len(raw_particle_data)):
 
 particles.sort(cmp=location_sort)
 
-for i in range(0, 10):
-  print particles[i].manhattan(), particles[i].manhattan_acceleration()
+# for i in range(0, 10):
+  # print particles[i].manhattan(), particles[i].manhattan_acceleration()
 
 particles.sort(cmp=acceleration_sort)
 
-for i in range(0, 10):
-  print particles[i].manhattan(), particles[i].manhattan_acceleration()
+# for i in range(0, 10):
+  # print particles[i].manhattan(), particles[i].manhattan_acceleration()
 
 
-print particles[0].pid
+print 'closest to center', particles[0].pid
+
+
+### end part 1 ###
+### part two: guess and check ###
+def xyz_sort(a, b):
+  if a.p[0] < b.p[0]:
+    return -1
+  elif b.p[0] < a.p[0]:
+    return 1
+  elif a.p[1] < b.p[1]:
+    return -1
+  elif b.p[1] < a.p[1]:
+    return 1
+  elif a.p[2] < b.p[2]:
+    return -1
+  elif b.p[2] < a.p[2]:
+    return 1
+  else:
+    return 0
+
+def check_for_collisions(particle_list):
+  free_particles = []
+  particle_list.sort(cmp=xyz_sort)
+  for i in range(0, len(particle_list) - 1):
+    if i > 0:
+      if particle_list[i].p != particle_list[i + 1].p and particle_list[i].p != particle_list[i - 1].p:
+        free_particles.append(particle_list[i])
+      # else: 
+        # print 'collision!'
+    else:
+      if particle_list[i].p != particle_list[i + 1].p:
+        free_particles.append(particle_list[i])
+      # else: 
+        # print 'collision!'
+
+    if i == len(particle_list) - 2:
+      if particle_list[i].p != particle_list[i + 1].p:
+        free_particles.append(particle_list[i + 1])
+  return free_particles
+
+def update_all_locations(particle_list):
+  for particle in particle_list:
+    particle.update_location()
+
+
+particles_in_motion = particles
+sims = 1000
+while sims > 0:
+  sims -= 1
+  particles_in_motion = check_for_collisions(particles_in_motion)
+  update_all_locations(particles_in_motion)
+
+print len(particles_in_motion)
