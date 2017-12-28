@@ -8,13 +8,11 @@ start_infection = 0
 top = len(raw_map) / 2
 for row in range(0, len(raw_map)):
   for col in range(0, len(raw_map)):
-    # print row, col
-    # print top - row, col - top
     if raw_map[row][col] == '#':
-      state[(top - row, col - top)] = 1
+      state[(top - row, col - top)] = '#'
       start_infection += 1
     else:
-      state[(top - row, col - top)] = 0
+      state[(top - row, col - top)] = '.'
 
 # print state
 
@@ -31,9 +29,17 @@ def turn(current, dir):
     'DOWN': 'RIGHT',
     'RIGHT': 'UP',
   }
+  reverse = {
+    'UP': 'DOWN',
+    'LEFT': 'RIGHT',
+    'DOWN': 'UP',
+    'RIGHT': 'LEFT',
+  }
 
   if dir == 'RIGHT':
     return right[current]
+  elif dir == 'REVERSE':
+    return reverse[current]
   else:
     return left[current]
 
@@ -53,7 +59,7 @@ current_node = (0, 0)
 current_dir = 'UP'
 
 infection_count = 0
-steps = 10000
+steps = 10000000
 while steps > 0:
   steps -= 1
   # print 'current_node', current_node
@@ -62,17 +68,30 @@ while steps > 0:
     # print 'addding node', current_node
     state[current_node] = 0
 
-  if state[current_node]:
-    # print 'infected!'
-    state[current_node] = 0
+  if state[current_node] == '#':
+    # flag node
+    # print 'flagging', current_node
+    state[current_node] = 'F'
     current_dir = turn(current_dir, 'RIGHT')
     # print 'new dir', current_dir
-  else:
-    # print 'infecting node!'
+  elif state[current_node] == 'W':
+    # infect node
+    # print 'infecting', current_node
     infection_count += 1
-    state[current_node] = 1
-    current_dir = turn(current_dir, 'LEFT')
+    state[current_node] = '#'
+    # current_dir = turn(current_dir, 'RIGHT')
     # print 'new dir', current_dir
+  elif state[current_node] == 'F':
+    # clean node
+    # print 'cleanning', current_node
+    state[current_node] = '.'
+    current_dir = turn(current_dir, 'REVERSE')
+  else:
+    # weaken node
+    # print 'weakening', current_node
+    state[current_node] = 'W'
+    current_dir = turn(current_dir, 'LEFT')
+    # don't move
   
   # move forward
   current_node = move_forward(current_node, current_dir)
