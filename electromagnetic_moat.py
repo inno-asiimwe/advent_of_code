@@ -100,31 +100,6 @@ class Node(object):
 
 root_node = Node('0/0', '0', available_ports)
 
-# zero_ports = []
-# for port in range(0, len(available_ports)):
-#   if available_ports[port].split('/')[0] == '0' or available_ports[port].split('/')[1] == '0':
-#     zero_ports.append(port)
-
-# print 'zero ports', zero_ports
-
-# zero_nodes = []
-# for zero_idx in zero_ports:
-#   non_zero_ports = available_ports[0:zero_idx]
-#   non_zero_ports.extend(available_ports[zero_idx+1:])
-#   new_node = Node(available_ports[zero_idx], '0', non_zero_ports)
-#   zero_nodes.append(new_node)
-
-# print len(root.compatible_ports)
-
-# for root in zero_nodes:
-#   sub_strengths = root.get_strengths()
-#   sub_strengths.sort()
-#   print sub_strengths[len(sub_strengths) - 1]
-
-# strengths = root_node.get_strengths()
-# strengths.sort()
-# print strengths[len(strengths) - 1]
-
 print root_node.get_strongest()
 
 ### end part 1 ###
@@ -155,7 +130,6 @@ def str_sort(a, b):
 lengths = root_node.get_lengths()
 lengths.sort(cmp=str_sort)
 lengths.sort(cmp=len_sort)
-print lengths[len(lengths) - 100:]
 print lengths[len(lengths) - 1]
 
 # print root_node.get_longest_and_strongest()

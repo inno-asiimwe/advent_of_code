@@ -17,7 +17,6 @@ class Thread:
     self.queue_in = queue_in
     self.queue_out = queue_out
     self.registers = {}
-    self.registers['p'] = thread_id
     self.current_location = 0
     self.deadlock = False
     self.send_count = 0
@@ -36,7 +35,7 @@ class Thread:
     op = command[0]
     register = command[1]
 
-    print command
+    # print command
 
     if self.registers.has_key(register) == False:
       self.registers[register] = 0
@@ -85,11 +84,11 @@ class Thread:
     #     self.current_location += 0
 
     elif op == 'sub':
-      if register == 'e' and command[2] == '-1' and self.registers['e'] < 109900:
+      # if register == 'e' and command[2] == '-1' and self.registers['e'] < 109900:
         # self.registers['g'] = 1
-        self.registers['e'] = 109900
-        self.current_location += 1
-      elif RepresentsInt(command[2]) == True:
+        # self.registers['e'] = 109900
+        # self.current_location += 1
+      if RepresentsInt(command[2]) == True:
         self.registers[register] -= int(command[2])
       else:
         self.registers[register] -= int(self.registers[command[2]])
@@ -140,15 +139,17 @@ class Thread:
         else:
           self.current_location += 1
 
-    print " ",self.registers, self.current_location
+    # if self.registers.has_key('h'):
+    print command, self.registers, self.current_location
+    # print self.registers['h']
 
-shared_queue = deque()
+shared_queue = []
 new_thread = Thread(file_input, shared_queue, shared_queue, 0)
 new_thread.registers['a'] = 1
-count = 0
-# while new_thread.is_done() == False:
-while count < 150:
-  count += 1
+# count = 0
+while new_thread.is_done() == False:
+# while count < 100:
+  # count += 1
   new_thread.step()
 
 # print new_thread.mul_count
