@@ -37,8 +37,6 @@ console.log(doubles * triples)
 
 
 let charCountMap = {}
-let one = ''
-let two = ''
 for (let line of input) {
   for (let i = 0; i < line.length; i++) {
     let testString = line.slice(0,i) + '*' + line.slice(i + 1)
