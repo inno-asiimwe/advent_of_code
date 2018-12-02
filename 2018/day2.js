@@ -34,3 +34,21 @@ for (let line of input) {
 
 console.log(doubles, triples)
 console.log(doubles * triples)
+
+
+let charCountMap = {}
+let one = ''
+let two = ''
+for (let line of input) {
+  for (let i = 0; i < line.length; i++) {
+    let testString = line.slice(0,i) + '*' + line.slice(i + 1)
+    if (charCountMap[testString]) {
+      console.log(charCountMap[testString], line)
+      console.log(line.slice(0, i) + line.slice(i + 1))
+      break
+    } else {
+      charCountMap[testString] = line
+    }
+  }
+}
+
